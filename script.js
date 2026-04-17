@@ -393,4 +393,53 @@ function baixarPlanilha(){
 
   XLSX.utils.book_append_sheet(wb, ws, "Clientes");
   XLSX.writeFile(wb, "clientes_filtrados.xlsx");
+ 
+// 🤖 IA - GERADOR DE MENSAGEM
+
+async function gerarMensagem(){
+
+  const promptInput = document.getElementById("promptIA");
+  const respostaBox = document.getElementById("respostaIA");
+
+  if(!promptInput){
+    alert("Campo de IA não encontrado no HTML");
+    return;
+  }
+
+  const prompt = promptInput.value;
+
+  if(!prompt || prompt.trim() === ""){
+    alert("Digite algo para gerar a mensagem");
+    return;
+  }
+
+  respostaBox.innerHTML = "🤖 Gerando mensagem...";
+
+  try{
+
+    const response = await fetch("/api/ia", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if(data.texto){
+      respostaBox.innerHTML = `
+        <div style="white-space: pre-line;">
+          ${data.texto}
+        </div>
+      `;
+    }else{
+      respostaBox.innerHTML = "Erro ao gerar mensagem";
+    }
+
+  }catch(error){
+    console.error("Erro IA:", error);
+    respostaBox.innerHTML = "Erro de conexão com a IA";
+  }
+}
 }
