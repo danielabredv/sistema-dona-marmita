@@ -30,6 +30,7 @@
 
 <div class="container">
 
+<!-- PAINEL -->
 <div class="painel">
 
 <h3>Mapeamento</h3>
@@ -40,9 +41,14 @@
 <select id="map_cidade"></select>
 
 <h3>Filtros</h3>
+
+<label>Data início</label>
 <input type="date" id="data_inicio">
+
+<label>Data fim</label>
 <input type="date" id="data_fim">
 
+<h4>Cidades</h4>
 <label><input type="checkbox" id="cidade_aracaju" checked> Aracaju</label>
 <label><input type="checkbox" id="cidade_salvador" checked> Salvador</label>
 
@@ -56,24 +62,40 @@
 </div>
 
 <h3>⚙️ Configuração</h3>
+
+<label>VIP valor</label>
 <input type="number" id="cfg_vip_valor" value="1000">
+
+<label>VIP quantidade</label>
 <input type="number" id="cfg_vip_qtd" value="10">
+
+<label>Frequente quantidade</label>
 <input type="number" id="cfg_freq_qtd" value="5">
+
+<label>Risco mínimo (dias)</label>
 <input type="number" id="cfg_risco_min" value="15">
+
+<label>Risco máximo (dias)</label>
 <input type="number" id="cfg_risco_max" value="30">
+
+<label>Inativo (dias)</label>
 <input type="number" id="cfg_inativo" value="30">
 
 </div>
 
+<!-- RESULTADO -->
 <div class="preview">
-  <h2>Resumo</h2>
-  <div id="resumo" class="resumo"></div>
 
-  <h2>Clientes</h2>
-  <div id="preview"></div>
+<h2>Resumo</h2>
+<div id="resumo" class="resumo"></div>
+
+<h2>Clientes</h2>
+<div id="preview"></div>
+
 </div>
 
 </div>
+
 </div>
 
 <!-- ================= PEDIDOS ================= -->
@@ -105,11 +127,19 @@
 
 <!-- ================= IA ================= -->
 <div id="tela_ia" class="tela hidden">
+
 <div class="box">
-  <textarea id="promptIA"></textarea>
-  <button onclick="gerarMensagem()">Gerar</button>
+  <h3>Gerador de Campanha</h3>
+
+  <textarea id="promptIA" placeholder="Digite sua campanha..."></textarea>
+
+  <button onclick="gerarMensagem()" class="btn-primary">
+    Gerar Mensagem
+  </button>
+
   <div id="respostaIA"></div>
 </div>
+
 </div>
 
 <script src="script.js"></script>
