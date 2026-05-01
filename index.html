@@ -2,20 +2,24 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Dona Marmita</title>
+<title>Dona Marmita Pro</title>
 
 <link rel="stylesheet" href="style.css">
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 </head>
 <body>
 
+<!-- MENU -->
 <div class="menu-top">
-  <button onclick="toggle('configBox')">⚙️ Classificação</button>
-  <button onclick="toggle('iaBox')">🤖 IA</button>
-  <button onclick="toggleDark()">🌙 Dark</button>
+  <button onclick="trocarTela('crm')">📊 CRM</button>
+  <button onclick="trocarTela('pedidos')">🍱 Pedidos</button>
+  <button onclick="trocarTela('ia')">🤖 IA</button>
+  <button onclick="toggleDark()">🌙</button>
 </div>
+
+<!-- ================= CRM ================= -->
+<div id="tela_crm" class="tela">
 
 <div class="topo">
   <input type="file" id="fileInput">
@@ -37,30 +41,73 @@
 
 <div class="preview">
   <h2>Preview</h2>
-  <div id="resumo"></div>
   <div id="preview"></div>
 </div>
 
 </div>
 
-<!-- 🍱 PEDIDOS -->
-<div class="box">
-  <h3>Pedidos</h3>
-
-  <input id="pedido_nome" placeholder="Cliente">
-  <input id="pedido_tel" placeholder="Telefone">
-  <input id="pedido_qtd" placeholder="Qtd" type="number">
-
-  <button onclick="criarPedidoUI()">Criar Pedido</button>
-
-  <div id="listaPedidos"></div>
 </div>
 
-<!-- 🤖 IA -->
-<div id="iaBox" class="box hidden">
-  <textarea id="promptIA"></textarea>
-  <button onclick="gerarMensagem()">Gerar</button>
+<!-- ================= PEDIDOS ================= -->
+<div id="tela_pedidos" class="tela hidden">
+
+<div class="pedidos-container">
+
+  <div class="pedido-card">
+    <h3>Novo Pedido</h3>
+
+    <div class="grid">
+      <input id="pedido_nome" placeholder="Cliente">
+      <input id="pedido_tel" placeholder="Telefone">
+      <input id="pedido_qtd" type="number" placeholder="Qtd">
+    </div>
+
+    <button class="btn-primary" onclick="criarPedidoUI()">Criar Pedido</button>
+  </div>
+
+  <div class="pedido-board">
+
+    <div class="coluna">
+      <h4>Pendentes</h4>
+      <div id="col_pendente"></div>
+    </div>
+
+    <div class="coluna">
+      <h4>Preparando</h4>
+      <div id="col_preparando"></div>
+    </div>
+
+    <div class="coluna">
+      <h4>Prontos</h4>
+      <div id="col_pronto"></div>
+    </div>
+
+    <div class="coluna">
+      <h4>Atrasados</h4>
+      <div id="col_atrasado"></div>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- ================= IA ================= -->
+<div id="tela_ia" class="tela hidden">
+
+<div class="box">
+  <h3>Gerador de Campanha</h3>
+
+  <textarea id="promptIA" placeholder="Digite sua campanha..."></textarea>
+
+  <button class="btn-primary" onclick="gerarMensagem()">
+    Gerar Mensagem
+  </button>
+
   <div id="respostaIA"></div>
+</div>
+
 </div>
 
 <script src="script.js"></script>
