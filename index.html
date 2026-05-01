@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- MENU -->
 <div class="menu-top">
   <button onclick="trocarTela('crm')">📊 CRM</button>
   <button onclick="trocarTela('pedidos')">🍱 Pedidos</button>
@@ -17,13 +18,13 @@
   <button onclick="toggleDark()">🌙</button>
 </div>
 
-<!-- CRM -->
+<!-- ================= CRM ================= -->
 <div id="tela_crm" class="tela">
 
 <div class="topo">
   <input type="file" id="fileInput">
   <button onclick="carregar()">Carregar</button>
-  <button onclick="processar()">Processar</button>
+  <button id="btnProcessar" onclick="processar()" disabled>Processar</button>
   <button onclick="baixarPlanilha()">Baixar</button>
 </div>
 
@@ -31,7 +32,7 @@
 
 <div class="painel">
 
-<h3>Mapear</h3>
+<h3>Mapeamento</h3>
 <select id="map_nome"></select>
 <select id="map_tel"></select>
 <select id="map_data"></select>
@@ -45,19 +46,37 @@
 <label><input type="checkbox" id="cidade_aracaju" checked> Aracaju</label>
 <label><input type="checkbox" id="cidade_salvador" checked> Salvador</label>
 
+<h3>🎯 Tipo de Cliente</h3>
+<div class="filtros-tipo">
+  <button onclick="setFiltro('Todos', this)" class="active">Todos</button>
+  <button onclick="setFiltro('VIP', this)">VIP</button>
+  <button onclick="setFiltro('Frequente', this)">Frequente</button>
+  <button onclick="setFiltro('Em risco', this)">Risco</button>
+  <button onclick="setFiltro('Inativo', this)">Inativo</button>
+</div>
+
+<h3>⚙️ Configuração</h3>
+<input type="number" id="cfg_vip_valor" value="1000">
+<input type="number" id="cfg_vip_qtd" value="10">
+<input type="number" id="cfg_freq_qtd" value="5">
+<input type="number" id="cfg_risco_min" value="15">
+<input type="number" id="cfg_risco_max" value="30">
+<input type="number" id="cfg_inativo" value="30">
+
 </div>
 
 <div class="preview">
-  <h2>Preview</h2>
-  <div id="resumo"></div>
+  <h2>Resumo</h2>
+  <div id="resumo" class="resumo"></div>
+
+  <h2>Clientes</h2>
   <div id="preview"></div>
 </div>
 
 </div>
-
 </div>
 
-<!-- PEDIDOS -->
+<!-- ================= PEDIDOS ================= -->
 <div id="tela_pedidos" class="tela hidden">
 
 <div class="pedidos-container">
@@ -84,7 +103,7 @@
 </div>
 </div>
 
-<!-- IA -->
+<!-- ================= IA ================= -->
 <div id="tela_ia" class="tela hidden">
 <div class="box">
   <textarea id="promptIA"></textarea>
@@ -94,6 +113,5 @@
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
