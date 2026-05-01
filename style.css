@@ -1,97 +1,178 @@
+/* ================= BASE ================= */
 body{
-  font-family:-apple-system,BlinkMacSystemFont;
+  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
   margin:0;
   background:#f5f5f7;
+  color:#1c1c1e;
   overflow-x:hidden;
 }
 
-/* 🌙 DARK */
+/* 🌙 DARK MODE */
 .dark{
   background:#1c1c1e;
   color:#fff;
 }
 
-/* MENU */
+/* ================= MENU ================= */
 .menu-top{
   display:flex;
   gap:10px;
-  padding:10px;
+  padding:10px 15px;
   background:rgba(255,255,255,0.7);
   backdrop-filter:blur(20px);
   position:fixed;
   width:100%;
-  z-index:10;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(0,0,0,0.05);
 }
 
-/* BOTÃO */
+.dark .menu-top{
+  background:rgba(40,40,50,0.7);
+}
+
+/* BOTÕES */
 button{
   border:none;
-  padding:10px 15px;
+  padding:10px 14px;
   border-radius:12px;
   cursor:pointer;
-  transition:0.2s;
+  font-weight:500;
+  background:#e5e5ea;
+  transition: all 0.2s ease;
+}
+
+button:hover{
+  opacity:0.9;
 }
 
 button:active{
   transform:scale(0.95);
 }
 
-/* TELAS iOS */
+/* BOTÃO PRINCIPAL */
+.btn-primary{
+  background:linear-gradient(135deg,#007aff,#00c6ff);
+  color:#fff;
+}
+
+/* ================= TELAS (iOS STYLE) ================= */
 .tela{
   position:absolute;
   top:70px;
   width:100%;
   opacity:0;
   transform:translateX(30px);
-  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
 }
 
 .tela.ativa{
   opacity:1;
   transform:translateX(0);
+  z-index:2;
 }
 
 .hidden{
   display:none;
 }
 
-/* CRM */
+/* ================= CRM ================= */
 .container{
   display:flex;
   gap:20px;
   padding:20px;
 }
 
-.painel, .preview{
+/* PAINEL */
+.painel{
+  width:260px;
   background:rgba(255,255,255,0.8);
   backdrop-filter:blur(20px);
   padding:15px;
-  border-radius:15px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
 }
 
-/* PEDIDOS */
+.dark .painel{
+  background:rgba(40,40,60,0.7);
+}
+
+/* SELECTS E INPUTS */
+select, input{
+  width:100%;
+  margin-bottom:10px;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  background:#fff;
+}
+
+.dark select, 
+.dark input{
+  background:#2c2c3a;
+  border:1px solid #444;
+  color:#fff;
+}
+
+/* PREVIEW */
+.preview{
+  flex:1;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(20px);
+  padding:15px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  overflow:auto;
+}
+
+.dark .preview{
+  background:rgba(40,40,60,0.7);
+}
+
+/* TABELA */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th, td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+}
+
+.dark th, 
+.dark td{
+  border-bottom:1px solid #444;
+}
+
+/* ================= PEDIDOS ================= */
 .pedidos-container{
   padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
+/* CARD NOVO PEDIDO */
 .pedido-card{
   background:rgba(255,255,255,0.7);
   backdrop-filter:blur(20px);
   border-radius:20px;
   padding:20px;
-  margin-bottom:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
 }
 
+.dark .pedido-card{
+  background:rgba(40,40,60,0.6);
+}
+
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   gap:10px;
-}
-
-.btn-primary{
-  margin-top:10px;
-  background:linear-gradient(135deg,#007aff,#00c6ff);
-  color:#fff;
 }
 
 /* BOARD */
@@ -101,11 +182,17 @@ button:active{
   gap:15px;
 }
 
+/* COLUNAS */
 .coluna{
   background:rgba(255,255,255,0.6);
   backdrop-filter:blur(15px);
   border-radius:15px;
   padding:10px;
+  min-height:200px;
+}
+
+.dark .coluna{
+  background:rgba(50,50,70,0.6);
 }
 
 /* CARD PEDIDO */
@@ -114,21 +201,35 @@ button:active{
   border-radius:12px;
   padding:10px;
   margin-bottom:10px;
-  transition:0.2s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.dark .pedido-item{
+  background:#2c2c3a;
 }
 
 .pedido-item:hover{
-  transform:translateY(-3px);
+  transform:translateY(-3px) scale(1.01);
 }
 
+/* STATUS */
 .pendente{ border-left:4px solid orange; }
 .preparando{ border-left:4px solid #007aff; }
 .pronto{ border-left:4px solid #2ecc71; }
-.atrasado{ border-left:4px solid red; }
+.atrasado{ border-left:4px solid #ff3b30; }
 
-/* IA */
+/* ================= IA ================= */
 .box{
   padding:20px;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(20px);
+  border-radius:16px;
+  margin:20px;
+}
+
+.dark .box{
+  background:rgba(40,40,60,0.7);
 }
 
 textarea{
@@ -136,4 +237,27 @@ textarea{
   height:120px;
   border-radius:10px;
   padding:10px;
+  border:1px solid #ddd;
+}
+
+.dark textarea{
+  background:#2c2c3a;
+  border:1px solid #444;
+  color:#fff;
+}
+
+/* ================= MICROINTERAÇÕES ================= */
+.fade-in{
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
