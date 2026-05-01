@@ -1,45 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Dona Marmita Pro</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</head>
+<body>
+
 <div class="dashboard">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>Dona Marmita</h2>
 
-    <nav>
-      <button class="active">CRM</button>
-      <button>Pedidos</button>
-      <button>Campanhas</button>
-      <button>Relatórios</button>
-    </nav>
+    <button onclick="toggleDark()">🌙</button>
   </aside>
 
-  <!-- CONTEÚDO -->
+  <!-- MAIN -->
   <main class="main">
 
-    <!-- HEADER -->
-    <div class="header">
-      <h1>CRM de Clientes</h1>
-      <button onclick="toggleDark()">🌙 Modo Escuro</button>
-    </div>
+    <h1>CRM</h1>
 
-    <!-- ETAPAS -->
-    <div class="steps">
-      <div class="step active">1. Importar</div>
-      <div class="step">2. Configurar</div>
-      <div class="step">3. Processar</div>
-      <div class="step">4. Resultado</div>
-    </div>
-
-    <!-- UPLOAD -->
     <div class="upload-box">
       <input type="file" id="fileInput">
-      <button onclick="carregar()">Carregar Planilha</button>
-      <button id="btnProcessar" onclick="processar()">Analisar Clientes</button>
+      <button onclick="carregar()">Carregar</button>
+      <button id="btnProcessar" onclick="processar()">Analisar</button>
     </div>
 
-    <!-- RESUMO -->
     <div id="resumo" class="resumo"></div>
 
-    <!-- FILTROS -->
     <div class="filtros">
       <button onclick="setFiltro('Todos', this)" class="active">Todos</button>
       <button onclick="setFiltro('VIP', this)">VIP</button>
@@ -48,59 +40,34 @@
       <button onclick="setFiltro('Inativo', this)">Inativo</button>
     </div>
 
-    <!-- TABELA -->
-    <div id="preview" class="tabela"></div>
+    <div id="preview"></div>
 
   </main>
 
-  <div id="coreSistema" style="display:none;">
+</div>
 
+<!-- CORE INVISÍVEL -->
+<div style="display:none;">
   <select id="map_nome"></select>
   <select id="map_tel"></select>
   <select id="map_data"></select>
   <select id="map_valor"></select>
   <select id="map_cidade"></select>
 
-  <input type="date" id="data_inicio">
-  <input type="date" id="data_fim">
+  <input id="data_inicio">
+  <input id="data_fim">
 
   <input type="checkbox" id="cidade_aracaju" checked>
   <input type="checkbox" id="cidade_salvador" checked>
 
-  <!-- CONFIGURAÇÕES -->
-  <input type="number" id="cfg_vip_valor" value="1000">
-  <input type="number" id="cfg_vip_qtd" value="10">
-  <input type="number" id="cfg_freq_qtd" value="5">
-  <input type="number" id="cfg_risco_min" value="15">
-  <input type="number" id="cfg_risco_max" value="30">
-  <input type="number" id="cfg_inativo" value="30">
-
-</div>
- 
-<div id="coreSistema" style="display:none;">
-
-  <!-- MAPEAMENTO -->
-  <select id="map_nome"></select>
-  <select id="map_tel"></select>
-  <select id="map_data"></select>
-  <select id="map_valor"></select>
-  <select id="map_cidade"></select>
-
-  <!-- FILTROS -->
-  <input type="date" id="data_inicio">
-  <input type="date" id="data_fim">
-
-  <input type="checkbox" id="cidade_aracaju" checked>
-  <input type="checkbox" id="cidade_salvador" checked>
-
-  <!-- CONFIGURAÇÃO DE CLIENTE -->
-  <input type="number" id="cfg_vip_valor" value="1000">
-  <input type="number" id="cfg_vip_qtd" value="10">
-  <input type="number" id="cfg_freq_qtd" value="5">
-  <input type="number" id="cfg_risco_min" value="15">
-  <input type="number" id="cfg_risco_max" value="30">
-  <input type="number" id="cfg_inativo" value="30">
-
+  <input id="cfg_vip_valor" value="1000">
+  <input id="cfg_vip_qtd" value="10">
+  <input id="cfg_freq_qtd" value="5">
+  <input id="cfg_risco_min" value="15">
+  <input id="cfg_risco_max" value="30">
+  <input id="cfg_inativo" value="30">
 </div>
 
-</div>
+<script src="script.js"></script>
+</body>
+</html>
