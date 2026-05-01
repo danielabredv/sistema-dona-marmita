@@ -1,80 +1,194 @@
+// =============================
+// BASE ORIGINAL (MANTIDA)
+// =============================
+
 let dados = [];
 let dadosFiltrados = [];
 let colunasDisponiveis = [];
+let colunaCPF = null;
 let filtroAtual = "Todos";
 
-// DARK
+// 🌙 DARK MODE
 function toggleDark(){
   document.body.classList.toggle("dark");
 }
 
-// TELAS
-function trocarTela(tela){
-  document.querySelectorAll(".tela").forEach(t=>{
-    t.classList.add("hidden");
-  });
-  document.getElementById("tela_"+tela).classList.remove("hidden");
+// 🔘 TOGGLE BOX
+function toggle(id){
+  document.getElementById(id).classList.toggle("hidden");
 }
 
-// CARREGAR
+// =============================
+// 📥 CARREGAR PLANILHA (ORIGINAL)
+// =============================
 function carregar(){
+
   const file = fileInput.files[0];
+  if(!file) return alert("Selecione um arquivo");
+
   const reader = new FileReader();
 
-  reader.onload = e=>{
+  reader.onload = e => {
+
     const wb = XLSX.read(e.target.result,{type:'binary'});
     const ws = wb.Sheets[wb.SheetNames[0]];
+
     dados = XLSX.utils.sheet_to_json(ws,{defval:""});
+
+    if(dados.length === 0){
+      alert("Erro ao ler planilha");
+      return;
+    }
 
     colunasDisponiveis = Object.keys(dados[0]);
 
+    detectarCPF();
     preencherSelects();
+
     btnProcessar.disabled = false;
   };
 
   reader.readAsBinaryString(file);
 }
 
-// MAPEAR
+// 🔍 CPF (MANTIDO)
+function detectarCPF(){
+  const termos = ["cpf","documento","doc","id"];
+  colunaCPF = colunasDisponiveis.find(c =>
+    termos.some(t => c.toLowerCase().includes(t))
+  ) || null;
+}
+
+// 🧠 AUTO MAPEAR (MANTIDO)
 function preencherSelects(){
+
+  function auto(termos){
+    return colunasDisponiveis.find(c =>
+      termos.some(t => c.toLowerCase().includes(t))
+    ) || colunasDisponiveis[0];
+  }
+
   [map_nome,map_tel,map_data,map_valor,map_cidade].forEach(el=>{
     el.innerHTML = colunasDisponiveis.map(c=>`<option>${c}</option>`).join("");
   });
+
+  map_nome.value = auto(["nome"]);
+  map_tel.value = auto(["fone","tel","whatsapp"]);
+  map_data.value = auto(["data"]);
+  map_valor.value = auto(["valor","total"]);
+  map_cidade.value = auto(["endereco","cidade","bairro"]);
 }
 
-// VALOR
+// =============================
+// 💰 VALOR (ROBUSTO)
+// =============================
 function limparValor(v){
-  return Number(v.toString().replace(/\./g,"").replace(",","."));
+  return Number(
+    v.toString().replace(/\./g,"").replace(",",".")
+  ) || 0;
 }
 
-// DATA
+// =============================
+// 📅 DATA (ROBUSTA)
+// =============================
 function parseDataBR(d){
-  if(typeof d==="number") return new Date((d-25569)*86400000);
-  return new Date(d);
+
+  if(!d) return null;
+
+  if(typeof d === "number"){
+    return new Date((d - 25569) * 86400000);
+  }
+
+  if(typeof d === "string"){
+
+    if(d.includes("/")){
+      let p = d.split("/");
+      return new Date(p[2], p[1]-1, p[0]);
+    }
+
+    if(d.includes("-")){
+      let dt = new Date(d);
+      if(!isNaN(dt)) return dt;
+    }
+
+    let dt = new Date(d);
+    if(!isNaN(dt)) return dt;
+  }
+
+  return null;
 }
 
-// CIDADE
+// =============================
+// 📞 TELEFONE (ROBUSTO)
+// =============================
+function formatarTelefone(t){
+
+  let tel = t.toString().replace(/\D/g,"");
+
+  if(tel.startsWith("55")) return tel;
+
+  if(tel.length === 11 || tel.length === 10){
+    return "55"+tel;
+  }
+
+  if(tel.length >= 8 && tel.length <= 9){
+    return "5571"+tel;
+  }
+
+  return tel;
+}
+
+// =============================
+// 🌆 CIDADE (COMPLETA)
+// =============================
 function detectarCidade(txt){
-  txt = txt.toLowerCase();
-  if(txt.includes("aju")) return "Aracaju";
-  if(txt.includes("ssa") || txt.includes("salvador")) return "Salvador";
+
+  if(!txt) return "Outro";
+
+  txt = txt.toString().toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s]/g, " ");
+
+  const bairrosAracaju = ["atalaia","farolandia","grageru","jardins"];
+  const bairrosSalvador = ["pituba","barra","ondina","itapua"];
+
+  if(txt.includes("aracaju") || txt.includes("aju") || bairrosAracaju.some(b => txt.includes(b))){
+    return "Aracaju";
+  }
+
+  if(txt.includes("salvador") || txt.includes("ssa") || bairrosSalvador.some(b => txt.includes(b))){
+    return "Salvador";
+  }
+
   return "Outro";
 }
 
-// CLASSIFICAÇÃO
+// =============================
+// 🧠 CLASSIFICAÇÃO COMPLETA (NOVO)
+// =============================
 function classificar(c){
 
-  const dias = (new Date() - c.ultimaCompra)/86400000;
+  const hoje = new Date();
+  const dias = (hoje - c.ultimaCompra) / 86400000;
 
-  if(c.total >= cfg_vip_valor.value || c.quantidade >= cfg_vip_qtd.value) return "VIP";
-  if(c.quantidade >= cfg_freq_qtd.value) return "Frequente";
-  if(dias > cfg_risco_min.value && dias <= cfg_risco_max.value) return "Em risco";
-  if(dias > cfg_inativo.value) return "Inativo";
+  const vipValor = Number(cfg_vip_valor.value);
+  const vipQtd = Number(cfg_vip_qtd.value);
+  const freqQtd = Number(cfg_freq_qtd.value);
+  const riscoMin = Number(cfg_risco_min.value);
+  const riscoMax = Number(cfg_risco_max.value);
+  const inativo = Number(cfg_inativo.value);
+
+  if(c.total >= vipValor || c.quantidade >= vipQtd) return "VIP";
+  if(c.quantidade >= freqQtd) return "Frequente";
+  if(dias > riscoMin && dias <= riscoMax) return "Em risco";
+  if(dias > inativo) return "Inativo";
 
   return "Novo";
 }
 
-// PROCESSAR
+// =============================
+// 🚀 PROCESSAR (ORIGINAL + MELHORADO)
+// =============================
 function processar(){
 
   let mapa = {};
@@ -87,11 +201,17 @@ function processar(){
     const data = parseDataBR(l[map_data.value]);
     const valor = limparValor(l[map_valor.value]);
 
+    if(!data) return;
+
     const cidade = detectarCidade(l[map_cidade.value]);
+
+    if(cidade==="Aracaju" && !cidade_aracaju.checked) return;
+    if(cidade==="Salvador" && !cidade_salvador.checked) return;
 
     if(!mapa[nome]){
       mapa[nome] = {
         nome,
+        telefone: formatarTelefone(l[map_tel.value]),
         total:0,
         quantidade:0,
         ultimaCompra:data,
@@ -101,6 +221,11 @@ function processar(){
 
     mapa[nome].total += valor;
     mapa[nome].quantidade++;
+
+    if(data > mapa[nome].ultimaCompra){
+      mapa[nome].ultimaCompra = data;
+    }
+
   });
 
   dadosFiltrados = Object.values(mapa).map(c=>{
@@ -111,20 +236,34 @@ function processar(){
   gerarPreview();
 }
 
-// RESUMO
+// =============================
+// 📊 RESUMO (NOVO)
+// =============================
 function gerarResumo(){
 
   let total = dadosFiltrados.length;
-  let faturamento = dadosFiltrados.reduce((a,c)=>a+c.total,0);
+  let faturamento = 0;
+  let vip = 0;
+  let risco = 0;
+
+  dadosFiltrados.forEach(c=>{
+    faturamento += c.total;
+    if(c.classificacao === "VIP") vip++;
+    if(c.classificacao === "Em risco") risco++;
+  });
 
   resumo.innerHTML = `
-    <div class="cardResumo">${total} Clientes</div>
-    <div class="cardResumo">R$ ${faturamento.toFixed(2)}</div>
+    <div class="cardResumo"><span>Clientes</span><strong>${total}</strong></div>
+    <div class="cardResumo"><span>Faturamento</span><strong>R$ ${faturamento.toFixed(2)}</strong></div>
+    <div class="cardResumo"><span>VIP</span><strong>${vip}</strong></div>
+    <div class="cardResumo"><span>Em risco</span><strong>${risco}</strong></div>
   `;
 }
 
-// FILTRO
-function setFiltro(tipo,el){
+// =============================
+// 🎯 FILTRO POR BOTÃO (NOVO)
+// =============================
+function setFiltro(tipo, el){
 
   filtroAtual = tipo;
 
@@ -136,19 +275,30 @@ function setFiltro(tipo,el){
   gerarPreview();
 }
 
-// PREVIEW
+// =============================
+// 👀 PREVIEW (MELHORADO)
+// =============================
 function gerarPreview(){
 
   gerarResumo();
 
-  let lista = filtroAtual==="Todos"
+  let lista = filtroAtual === "Todos"
     ? dadosFiltrados
-    : dadosFiltrados.filter(c=>c.classificacao===filtroAtual);
+    : dadosFiltrados.filter(c => c.classificacao === filtroAtual);
 
-  let html="<table>";
+  let html = "<table><tr><th>Nome</th><th>Total</th><th>Cidade</th><th>Classificação</th></tr>";
 
   lista.forEach(c=>{
-    html+=`<tr class="${c.classificacao.toLowerCase()}">
+
+    let classe = "";
+
+    if(c.classificacao === "VIP") classe="vip";
+    if(c.classificacao === "Frequente") classe="freq";
+    if(c.classificacao === "Em risco") classe="risco";
+    if(c.classificacao === "Inativo") classe="inativo";
+
+    html += `
+    <tr class="${classe}">
       <td>${c.nome}</td>
       <td>${c.total.toFixed(2)}</td>
       <td>${c.cidade}</td>
@@ -156,7 +306,7 @@ function gerarPreview(){
     </tr>`;
   });
 
-  html+="</table>";
+  html += "</table>";
 
-  preview.innerHTML=html;
+  preview.innerHTML = html;
 }
