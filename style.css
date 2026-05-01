@@ -1,138 +1,52 @@
-/* BASE */
 body{
   margin:0;
-  font-family:-apple-system, BlinkMacSystemFont;
-  background:#f5f6fa;
+  font-family:-apple-system;
+  background:#f5f5f7;
 }
 
-/* LAYOUT */
 .dashboard{
   display:flex;
-  height:100vh;
 }
 
-/* SIDEBAR */
 .sidebar{
-  width:220px;
-  background:#111827;
+  width:200px;
+  background:#111;
   color:#fff;
   padding:20px;
 }
 
-.sidebar h2{
-  margin-bottom:30px;
-}
-
-.sidebar button{
-  display:block;
-  width:100%;
-  margin-bottom:10px;
-  padding:10px;
-  border:none;
-  background:transparent;
-  color:#aaa;
-  text-align:left;
-  border-radius:8px;
-}
-
-.sidebar .active{
-  background:#6366f1;
-  color:#fff;
-}
-
-/* MAIN */
 .main{
   flex:1;
   padding:20px;
-  overflow:auto;
 }
 
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-/* STEPS */
-.steps{
-  display:flex;
-  gap:10px;
-  margin:20px 0;
-}
-
-.step{
-  background:#e5e7eb;
-  padding:10px;
-  border-radius:10px;
-}
-
-.step.active{
-  background:#6366f1;
-  color:#fff;
-}
-
-/* UPLOAD */
 .upload-box{
-  background:#fff;
-  padding:20px;
-  border-radius:12px;
   margin-bottom:20px;
 }
 
-/* RESUMO */
 .resumo{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:10px;
   margin-bottom:20px;
 }
 
 .cardResumo{
   background:#fff;
-  padding:15px;
-  border-radius:12px;
+  padding:10px;
+  border-radius:10px;
   text-align:center;
 }
 
-/* FILTROS */
 .filtros{
-  display:flex;
-  gap:10px;
   margin-bottom:15px;
 }
 
 .filtros button{
-  padding:8px 12px;
-  border:none;
-  border-radius:20px;
-  background:#e5e7eb;
+  margin-right:5px;
 }
 
-.filtros .active{
-  background:#6366f1;
-  color:#fff;
-}
-
-/* TABELA */
-.tabela{
-  background:#fff;
-  border-radius:12px;
-  padding:10px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-td, th{
-  padding:10px;
-  border-bottom:1px solid #eee;
-}
-
-/* CORES */
-.vip{color:#16a34a;}
-.freq{color:#2563eb;}
-.risco{color:#f59e0b;}
-.inativo{color:#dc2626;}
+.vip{background:#eaffea;}
+.freq{background:#eaf4ff;}
+.risco{background:#fff4e0;}
+.inativo{background:#ffeaea;}
