@@ -7,131 +7,62 @@
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
 </head>
 <body>
 
-<!-- 🔝 MENU SUPERIOR -->
 <div class="menu-top">
   <button onclick="toggle('configBox')">⚙️ Classificação</button>
-  <button onclick="toggle('iaBox')">🤖 IA Campanha</button>
+  <button onclick="toggle('iaBox')">🤖 IA</button>
   <button onclick="toggleDark()">🌙 Dark</button>
 </div>
 
-<!-- 🔝 TOPO -->
 <div class="topo">
   <input type="file" id="fileInput">
   <button onclick="carregar()">Carregar</button>
   <button onclick="processar()">Processar</button>
-  <button onclick="baixarPlanilha()">Baixar Planilha</button>
+  <button onclick="baixarPlanilha()">Baixar</button>
 </div>
 
 <div class="container">
 
-<!-- 🔧 PAINEL -->
 <div class="painel">
-
-<h3>🧠 Mapear Colunas</h3>
-
-<label>Nome</label>
-<select id="map_nome"></select>
-
-<label>Telefone</label>
-<select id="map_tel"></select>
-
-<label>Data</label>
-<select id="map_data"></select>
-
-<label>Valor</label>
-<select id="map_valor"></select>
-
-<label>Endereço</label>
-<select id="map_cidade"></select>
-
-<h3>📅 Filtro por Período</h3>
-
-<label>De:</label>
-<input type="date" id="data_inicio">
-
-<label>Até:</label>
-<input type="date" id="data_fim">
-
-<h3>🌆 Cidades</h3>
-
-<label><input type="checkbox" id="cidade_aracaju" checked> Aracaju</label>
-<label><input type="checkbox" id="cidade_salvador" checked> Salvador</label>
-
-<h3>📤 Colunas de saída</h3>
-
-<label><input type="checkbox" id="out_nome" checked> Nome</label>
-<label><input type="checkbox" id="out_tel" checked> Telefone</label>
-<label><input type="checkbox" id="out_total" checked> Total</label>
-<label><input type="checkbox" id="out_cidade" checked> Cidade</label>
-<label><input type="checkbox" id="out_data" checked> Data</label>
-<label><input type="checkbox" id="out_class" checked> Classificação</label>
-
+  <h3>Mapear</h3>
+  <select id="map_nome"></select>
+  <select id="map_tel"></select>
+  <select id="map_data"></select>
+  <select id="map_valor"></select>
+  <select id="map_cidade"></select>
 </div>
 
-<!-- 📊 PREVIEW -->
 <div class="preview">
-
-<!-- 🔥 RESUMO -->
-<div class="resumo" id="resumo"></div>
-
-<!-- 🎯 FILTROS MODERNOS -->
-<div class="filtros">
-  <div class="filtro-btn active" onclick="filtrarTipo('Todos', this)">Todos</div>
-  <div class="filtro-btn" onclick="filtrarTipo('VIP', this)">VIP</div>
-  <div class="filtro-btn" onclick="filtrarTipo('Frequente', this)">Frequente</div>
-  <div class="filtro-btn" onclick="filtrarTipo('Em risco', this)">Em risco</div>
-  <div class="filtro-btn" onclick="filtrarTipo('Inativo', this)">Inativo</div>
-</div>
-
-<h2>📊 Preview</h2>
-<div id="preview"></div>
-
+  <h2>Preview</h2>
+  <div id="resumo"></div>
+  <div id="preview"></div>
 </div>
 
 </div>
 
-<!-- ⚙️ CONFIG -->
-<div id="configBox" class="box hidden">
+<!-- 🍱 PEDIDOS -->
+<div class="box">
+  <h3>Pedidos</h3>
 
-<h3>⚙️ Configuração de Classificação</h3>
+  <input id="pedido_nome" placeholder="Cliente">
+  <input id="pedido_tel" placeholder="Telefone">
+  <input id="pedido_qtd" placeholder="Qtd" type="number">
 
-<label>💰 VIP valor mínimo</label>
-<input type="number" id="cfg_vip_valor" value="1000">
+  <button onclick="criarPedidoUI()">Criar Pedido</button>
 
-<label>🔁 VIP quantidade</label>
-<input type="number" id="cfg_vip_qtd" value="10">
-
-<label>🔁 Frequente quantidade</label>
-<input type="number" id="cfg_freq_qtd" value="5">
-
-<label>⚠️ Dias risco mínimo</label>
-<input type="number" id="cfg_risco_min" value="15">
-
-<label>⚠️ Dias risco máximo</label>
-<input type="number" id="cfg_risco_max" value="30">
-
-<label>❌ Dias inativo</label>
-<input type="number" id="cfg_inativo" value="30">
-
+  <div id="listaPedidos"></div>
 </div>
 
 <!-- 🤖 IA -->
 <div id="iaBox" class="box hidden">
-
-<h3>🤖 Gerador de Campanha</h3>
-
-<textarea id="promptIA" placeholder="Ex: campanha para clientes inativos"></textarea>
-
-<button onclick="gerarMensagem()">Gerar Mensagem</button>
-
-<div id="respostaIA"></div>
-
+  <textarea id="promptIA"></textarea>
+  <button onclick="gerarMensagem()">Gerar</button>
+  <div id="respostaIA"></div>
 </div>
 
-<script type="module" src="firebase.js"></script>
 <script src="script.js"></script>
 
 </body>
