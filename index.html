@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- MENU -->
 <div class="menu-top">
   <button onclick="trocarTela('crm')">📊 CRM</button>
   <button onclick="trocarTela('pedidos')">🍱 Pedidos</button>
@@ -18,7 +17,7 @@
   <button onclick="toggleDark()">🌙</button>
 </div>
 
-<!-- ================= CRM ================= -->
+<!-- CRM -->
 <div id="tela_crm" class="tela">
 
 <div class="topo">
@@ -31,16 +30,26 @@
 <div class="container">
 
 <div class="painel">
-  <h3>Mapear</h3>
-  <select id="map_nome"></select>
-  <select id="map_tel"></select>
-  <select id="map_data"></select>
-  <select id="map_valor"></select>
-  <select id="map_cidade"></select>
+
+<h3>Mapear</h3>
+<select id="map_nome"></select>
+<select id="map_tel"></select>
+<select id="map_data"></select>
+<select id="map_valor"></select>
+<select id="map_cidade"></select>
+
+<h3>Filtros</h3>
+<input type="date" id="data_inicio">
+<input type="date" id="data_fim">
+
+<label><input type="checkbox" id="cidade_aracaju" checked> Aracaju</label>
+<label><input type="checkbox" id="cidade_salvador" checked> Salvador</label>
+
 </div>
 
 <div class="preview">
   <h2>Preview</h2>
+  <div id="resumo"></div>
   <div id="preview"></div>
 </div>
 
@@ -48,66 +57,40 @@
 
 </div>
 
-<!-- ================= PEDIDOS ================= -->
+<!-- PEDIDOS -->
 <div id="tela_pedidos" class="tela hidden">
 
 <div class="pedidos-container">
 
-  <div class="pedido-card">
-    <h3>Novo Pedido</h3>
+<div class="pedido-card">
+  <h3>Novo Pedido</h3>
 
-    <div class="grid">
-      <input id="pedido_nome" placeholder="Cliente">
-      <input id="pedido_tel" placeholder="Telefone">
-      <input id="pedido_qtd" type="number" placeholder="Qtd">
-    </div>
-
-    <button class="btn-primary" onclick="criarPedidoUI()">Criar Pedido</button>
+  <div class="grid">
+    <input id="pedido_nome" placeholder="Cliente">
+    <input id="pedido_tel" placeholder="Telefone">
+    <input id="pedido_qtd" type="number" placeholder="Qtd">
   </div>
 
-  <div class="pedido-board">
+  <button class="btn-primary" onclick="criarPedidoUI()">Criar Pedido</button>
+</div>
 
-    <div class="coluna">
-      <h4>Pendentes</h4>
-      <div id="col_pendente"></div>
-    </div>
-
-    <div class="coluna">
-      <h4>Preparando</h4>
-      <div id="col_preparando"></div>
-    </div>
-
-    <div class="coluna">
-      <h4>Prontos</h4>
-      <div id="col_pronto"></div>
-    </div>
-
-    <div class="coluna">
-      <h4>Atrasados</h4>
-      <div id="col_atrasado"></div>
-    </div>
-
-  </div>
-
+<div class="pedido-board">
+  <div class="coluna"><h4>Pendentes</h4><div id="col_pendente"></div></div>
+  <div class="coluna"><h4>Preparando</h4><div id="col_preparando"></div></div>
+  <div class="coluna"><h4>Prontos</h4><div id="col_pronto"></div></div>
+  <div class="coluna"><h4>Atrasados</h4><div id="col_atrasado"></div></div>
 </div>
 
 </div>
+</div>
 
-<!-- ================= IA ================= -->
+<!-- IA -->
 <div id="tela_ia" class="tela hidden">
-
 <div class="box">
-  <h3>Gerador de Campanha</h3>
-
-  <textarea id="promptIA" placeholder="Digite sua campanha..."></textarea>
-
-  <button class="btn-primary" onclick="gerarMensagem()">
-    Gerar Mensagem
-  </button>
-
+  <textarea id="promptIA"></textarea>
+  <button onclick="gerarMensagem()">Gerar</button>
   <div id="respostaIA"></div>
 </div>
-
 </div>
 
 <script src="script.js"></script>
